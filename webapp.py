@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# nohup ./webapp.py &
+
 #     http://0.0.0.0:8080/name?param1=val&param2=val
 # 
 #     Copyright (C) 2015 Andrew J. Zimolzak <andyzimolzak@gmail.com>,
