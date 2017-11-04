@@ -1,30 +1,32 @@
 #!/usr/bin/env python
 
-#     http://0.0.0.0:8080/test?file=foo&signature=
-#     12471c4ce67d411fff413a6b773cb3f0b091d765
+#     http://0.0.0.0:8080/name?param1=val&param2=val
 # 
 #     Copyright (C) 2015 Andrew J. Zimolzak <andyzimolzak@gmail.com>,
 #     and licensed under GNU GPL version 3. Full notice is found in
 #     the file 'LICENSE' in the same directory as this file.
 
 import web
+import subprocess
         
 urls = (
-    '/(.*)', 'hello'
+    '/(.*)', 'main_app'
 )
 app = web.application(urls, globals())
 
-class hello:        
+class main_app:        
     def GET(self, name):
-        if not name: 
-            name = 'World'
-        params = web.input()
-        if 'file' in params.keys() and 'signature' in params.keys():
-            return('You are winner, ' + name
-                   + '!\nYou get the file called: ' + params.file
-                   + '\nBecause of your excellent ' + params.signature)
-        else:
-            return 'Hello, ' + name + '!'
+        # `name` is what comes after the "/" and before "?"
+        # params = web.input()
+        # Gives you: pararms.keys(), param.keyname
+        output = ""
+        separator = '\n\n~~~~\n\n'
+        output += subprocess.check_output(["uptime"]) + separator
+        output += subprocess.check_output(["ps", "x"]) + separator
+        output += subprocess.check_output(["df", "-h"]) + separator
+        output += subprocess.check_output(["tail", "/home/pi/Desktop/local/Mulder-quote-generator/log.txt"]) + separator
+        output += subprocess.check_output(["cat", "/home/pi/Desktop/local/Mulder-quote-generator/pid.txt"]) + separator
+        return output
 
 if __name__ == "__main__":
     app.run()
