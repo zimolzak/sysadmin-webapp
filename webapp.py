@@ -14,19 +14,24 @@ urls = (
 )
 app = web.application(urls, globals())
 
+def cmds2string(cmdlist):
+    output = ""
+    separator = '\n\n~~~~\n\n'
+    for c in cmdlist:
+        output += subprocess.check_output(c) + separator
+    return output
+
 class main_app:        
     def GET(self, name):
         # `name` is what comes after the "/" and before "?"
         # params = web.input()
         # Gives you: pararms.keys(), param.keyname
-        output = ""
-        separator = '\n\n~~~~\n\n'
-        output += subprocess.check_output(["uptime"]) + separator
-        output += subprocess.check_output(["ps", "x"]) + separator
-        output += subprocess.check_output(["df", "-h"]) + separator
-        output += subprocess.check_output(["tail", "/home/pi/Desktop/local/Mulder-quote-generator/log.txt"]) + separator
-        output += subprocess.check_output(["cat", "/home/pi/Desktop/local/Mulder-quote-generator/pid.txt"]) + separator
-        return output
+        return cmds2string([["uptime"],
+                            ["ps", "x"],
+                            ["df", "-h"],
+                            ["tail", "/home/pi/Desktop/local/Mulder-quote-generator/log.txt"],
+                            ["cat", "/home/pi/Desktop/local/Mulder-quote-generator/pid.txt"]
+                            ])
 
 if __name__ == "__main__":
     app.run()
