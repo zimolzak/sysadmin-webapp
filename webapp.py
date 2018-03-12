@@ -42,9 +42,10 @@ def cmds2string(cmdlist):
 
 class main_app:        
     def GET(self, name):
-        # `name` is what comes after the "/" and before "?"
-        # params = web.input()
-        # Gives you: pararms.keys(), param.keyname
+        # Not that this class uses it, but...
+        # `name` is what comes after the "/" and before "?".
+        # Whereas `params = web.input()`
+        # gives you: pararms.keys(), param.keyname
         return cmds2string([["uptime"],
                             ["PSSPECIAL"],
                             ["df", "-h"],
