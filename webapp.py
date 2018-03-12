@@ -11,10 +11,8 @@
 import web
 import subprocess
         
-urls = (
-    '/(.*)', 'main_app'
-)
-app = web.application(urls, globals())
+URLS = ('/(.*)', 'main_app')
+APP = web.application(URLS, globals())
 
 def cmds2string(cmdlist):
     output = ""
@@ -48,4 +46,4 @@ class main_app:
                             ])
 
 if __name__ == "__main__":
-    app.run()
+    APP.run()
