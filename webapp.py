@@ -43,7 +43,8 @@ def cmds2string(cmdlist):
     return output
 
 def pid_contents():
-    return subprocess.check_output(["cat", MULDER_PID_FILE])
+    raw_str = str(subprocess.check_output(["cat", MULDER_PID_FILE]))
+    return raw_str.replace('\n', '')
 
 def basic_statuses(ps_string):
     result = ''
@@ -53,9 +54,11 @@ def basic_statuses(ps_string):
         if 'python' in L:
             python_lines.append(L)
     for psearch in py_searches:
+        true_false = 'False'
         for pl in python_lines:
-            true_false = str(psearch in pl)
-            result += (psearch + ': ' + true_false + '\n')
+            if psearch in pl:
+                true_false = 'True'
+        result += (psearch + ': ' + true_false + '\n')
     true_false = str(pid_contents() in ps_string)
     result += ('PID matches: ' + true_false + '\n')
     return result
@@ -74,10 +77,10 @@ class main_app:
         
         return cmds2string([["BASICSPECIAL"],
                             ["uptime"],
-                            ["PSSPECIAL"],
                             ["df", "-h"],
                             ["tail", MULDER_LOG_FILE],
                             ["cat", MULDER_PID_FILE],
+                            ["PSSPECIAL"],
                             ])
 
 if __name__ == "__main__":
