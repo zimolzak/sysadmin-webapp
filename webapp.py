@@ -13,6 +13,8 @@ import subprocess
         
 URLS = ('/(.*)', 'main_app')
 APP = web.application(URLS, globals())
+MULDER_LOG_FILE = "/home/pi/Desktop/local/Mulder-quote-generator/log.txt"
+MULDER_PID_FILE = "/home/pi/Desktop/local/Mulder-quote-generator/pid.txt"
 
 def cmds2string(cmdlist):
     output = ""
@@ -33,6 +35,11 @@ def cmds2string(cmdlist):
             output += subprocess.check_output(c) + separator
     return output
 
+# mulder bot.py
+# webapp.py
+# repeating_camera.py
+# pid
+
 class main_app:        
     def GET(self, name):
         # `name` is what comes after the "/" and before "?"
@@ -41,8 +48,8 @@ class main_app:
         return cmds2string([["uptime"],
                             ["PSSPECIAL"],
                             ["df", "-h"],
-                            ["tail", "/home/pi/Desktop/local/Mulder-quote-generator/log.txt"],
-                            ["cat", "/home/pi/Desktop/local/Mulder-quote-generator/pid.txt"],
+                            ["tail", MULDER_LOG_FILE],
+                            ["cat", MULDER_PID_FILE],
                             ])
 
 if __name__ == "__main__":
